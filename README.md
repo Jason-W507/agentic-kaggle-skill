@@ -35,6 +35,13 @@ Including: **RL Game AI** | **Audio Classification** | **LLM Reasoning** | Multi
 
 </div>
 
+## Supported Agents / 支持的智能体
+
+| Agent | Status 状态 | Notes 说明 |
+| --- | --- | --- |
+| Codex | First-class 一等支持 | Uses `SKILL.md`, `agents/openai.yaml`, `references/`, and `scripts/`. |
+| Hermes | Supported 支持 | Uses the same skill folder. Hermes-era examples remain in `references/research/`. |
+
 ## Canonical Skill Identity / 统一 Skill 名称
 
 This repository keeps one canonical skill identity:
@@ -48,13 +55,6 @@ name: agentic-kaggle-skill
 The skill is written in the open agent skills format so it can be used by multiple agents. Codex-specific metadata lives in `agents/openai.yaml`; Hermes users can consume the same root `SKILL.md` and bundled resources.
 
 该 skill 使用开放 agent skill 格式编写，可被多个智能体使用。Codex 专属元数据放在 `agents/openai.yaml`；Hermes 用户可以直接使用根目录的 `SKILL.md` 以及配套的 `references/` 和 `scripts/`。
-
-## Supported Agents / 支持的智能体
-
-| Agent | Status 状态 | Notes 说明 |
-| --- | --- | --- |
-| Codex | First-class 一等支持 | Uses `SKILL.md`, `agents/openai.yaml`, `references/`, and `scripts/`. |
-| Hermes | Supported 支持 | Uses the same skill folder. Hermes-era examples remain in `references/research/`. |
 
 ## What It Does / 这个 Skill 能做什么
 
