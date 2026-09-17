@@ -1,4 +1,4 @@
 interface:
-  display_name: "Agentic Kaggle Skill"
-  short_description: "Kaggle execution, submissions, and debugging"
-  default_prompt: "Use $agentic-kaggle-skill when this task needs Kaggle-specific execution, kernels, datasets, submissions, score retrieval, or debugging."
+  display_name: "Kaggle Competition Engineering"
+  short_description: "Complex Kaggle pipelines, validation, and hidden-rerun debugging"
+  default_prompt: "Use $kaggle-competition-engineering for complex Kaggle solution engineering: code competitions, producer/consumer pipelines, artifact datasets, validation, ensembling, or hidden-rerun debugging."
