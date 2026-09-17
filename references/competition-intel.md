@@ -1,90 +1,51 @@
 # Competition Intelligence
 
-Use this reference when a Kaggle competition slug, URL, title, or search phrase is available and public notebook solutions or discussion activity may inform the plan.
+Use this reference when current public Kaggle notebooks, discussions, leaderboard context, or rule clarifications are likely to change the requested analysis or implementation.
 
-Before using results, read `information-sharing-policy.md`. Public notebooks and discussions are scouting signals, not permission to copy code, text, data, or private strategy.
+Do not scan public material mechanically for every Kaggle task. Match the depth of scouting to the user's goal, competition stage, and uncertainty.
 
-## Primary Tools
+Before reusing or publishing material derived from public competition resources, read `information-sharing-policy.md`.
 
-If the `kaggle-competition-intel` MCP server is installed and callable, use its tools before major modeling decisions.
+## Sources
 
-Use `top_open_solutions` for public notebook intelligence.
+When available, use Kaggle competition-intelligence tools, Kaggle UI/API/CLI, or user-provided public links to inspect relevant notebooks and discussions.
 
-Tool input:
+Focus on signals that can materially affect the work:
 
-```json
-{
-  "competition": "Kaggle competition URL, slug, title, or search phrase",
-  "top_score_x": 5,
-  "latest_y": 5,
-  "min_latest_votes": 30
-}
-```
+- competition-specific validation or hidden-test structure;
+- scoring or submission mechanics;
+- data quirks, bugs, leakage warnings, and rule clarifications;
+- strong public baselines or newly shared methods;
+- inference/runtime constraints for code competitions;
+- leaderboard behavior that may indicate public-LB overfitting or distribution shift.
 
-Inputs are required by the MCP tool:
+Treat public solutions as evidence and ideas, not authority. Do not assume that a popular notebook is optimal for the current objective, and do not copy restricted code, artifacts, or data without checking rules and licenses.
 
-- `top_score_x`: number of public solutions by public score, 1 to 20.
-- `latest_y`: number of latest high-vote public notebooks, 1 to 50.
-- `min_latest_votes`: latest notebooks are included only when `totalVotes` is strictly greater than this threshold.
+## Scouting depth
 
-For proactive scouting inside this skill, use `top_score_x: 5`, `latest_y: 5`, and `min_latest_votes: 30` when the user has not specified values, and state that this was the scouting depth and vote threshold.
+Choose the smallest useful search:
 
-The tool returns competition metadata, metric direction, `score_ranked_solutions`, `latest_high_vote_solutions`, a de-duplicated `solutions` union, public resource URLs, last run time, vote count, selection source, and numeric `bestPublicScore` when Kaggle exposes it.
+- For a narrow question, inspect only the directly relevant public sources.
+- Before an expensive architectural decision, compare several strong and recent public approaches plus high-signal discussions.
+- During a fast-moving endgame, weight recency and leaderboard evidence more heavily while still distinguishing public-LB gains from robust evidence.
+- When the user already supplied a baseline or specific public notebook, start from that context instead of re-running broad generic scouting.
 
-Use `competition_discussions` for discussion intelligence.
+Avoid fixed quotas such as always reading exactly five notebooks or five discussions. Increase breadth only when the first pass leaves an important uncertainty unresolved.
 
-Tool input:
+## Extract actionable evidence
 
-```json
-{
-  "competition": "Kaggle competition URL, slug, title, or search phrase",
-  "top_votes_x": 5,
-  "latest_replies_y": 5
-}
-```
+Summarize the parts that affect decisions, for example:
 
-Inputs are required by the MCP tool:
+- technique or architecture;
+- validation/testing evidence;
+- public score and timing when relevant;
+- runtime/resource profile;
+- competition-specific implementation details;
+- known failure modes or rule constraints;
+- why the idea is or is not worth testing in the user's current setup.
 
-- `top_votes_x`: number of top-voted discussion topics, 1 to 50.
-- `latest_replies_y`: number of latest-replied discussion topics, 1 to 50.
+Separate observed facts from your inference. Flag methods that appear dependent on leakage, fragile public-LB tuning, unavailable external data, or prohibited sharing.
 
-For proactive scouting inside this skill, use `top_votes_x: 5` and `latest_replies_y: 5` when discussion activity may reveal data issues, rule clarifications, leakage warnings, notebook updates, or fast-moving techniques.
+## Fallback
 
-The tool returns competition metadata, `top_voted_discussions`, `latest_replied_discussions`, topic URLs, votes, comment counts, post dates, latest reply dates, sticky status, and topic IDs.
-
-## How To Use Results
-
-Extract actionable patterns:
-
-- Validation scheme hints: folds, time split, group split, leakage controls.
-- Data processing: cleaning, resizing, text preprocessing, feature stores, artifact datasets.
-- Model families: tree boosting, CatBoost, transformer, CNN, segmentation model, retrieval/reranker, ensembling.
-- Training details: loss, metric surrogate, augmentation, class imbalance handling, thresholding, inference tricks.
-- Pipeline shape: single notebook, producer/consumer notebooks, dataset artifacts, Kaggle GPU use.
-- Leaderboard risk: suspicious public-only tricks, overly tuned thresholds, or public LB chasing.
-- Discussion signals: rule clarifications, data bugs, leakage warnings, metric traps, resource constraints, high-signal Q&A, and newly shared techniques.
-
-Do not blindly copy a notebook. Use top solutions as scouting data, then adapt ideas into the local validation and artifact discipline.
-
-Do not publish participant names, handles, or private links in generic reports unless the user explicitly needs source attribution for a public resource. Prefer technique summaries and public URLs.
-
-## Fallbacks
-
-If the MCP tool is not available:
-
-- Use the separate `$kaggle-competition-intel` skill if installed.
-- Use Kaggle UI/API/notebook search manually when browsing or Kaggle CLI is available.
-- Use existing local competition notes, public writeups, or user-provided links.
-- Proceed with the baseline workflow and note that live solution/discussion intelligence was unavailable.
-
-## Reporting
-
-When summarizing intel, include:
-
-- Competition slug/title and metric.
-- Score-ranked notebook title, public score, votes, last run time, selection source, and URL.
-- Latest high-vote notebook title, votes, last run time, public score if available, selection source, and URL.
-- Top-voted and latest-replied discussion title, votes, comment count, latest reply time, and URL.
-- Common technique themes.
-- Which ideas are worth testing locally.
-- Which ideas look risky because they may depend on public leaderboard overfitting or leakage.
+If live Kaggle intelligence is unavailable, use existing local notes, public writeups, user-provided links, or proceed from the competition specification and available code. State the limitation only when it materially affects confidence in the recommendation.
